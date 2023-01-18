@@ -21,13 +21,13 @@ telDict = 'tel.txt'
 
 def printAll(file_name):
     # Показать все записи
-    show = open(file_name)
+    show = open(file_name, 'r', encoding='utf8')
     print(show.read())
 
 def readFile(file_name):
     # приобразование данных в массив
     result = []
-    with open(file_name, 'r+') as data:
+    with open(file_name, 'r+', encoding='utf8') as data:
         for line in data:
             result.append(line.split(','))
     return result
@@ -46,6 +46,10 @@ def telSearch(userList):
         if user[3] == telNumber: 
            print(user[0]+','+user[1]+','+user[2]+','+ user[3])
 
+def addData(file_name):
+    new_data = input("Введите, пожалуйста, новые данные через запятую (','):")
+    with open(file_name, 'a', encoding='utf8') as data:
+        data.writelines(new_data + '\n')
 
 
 def writeFile(file_name):
@@ -62,7 +66,7 @@ print(readFile(telDict))
 # findUses(readFile(telDict))
 
 
-print("Добрый день! Добро пожаловть в псевдоспраочник! \nДля продолжения выберете итересующую Вас категорию: \n1 - Показать все записи \n2 - Найти запись по вхождению частей имени \n3 - Найти запись по телефону \n4 - Добавить новый контакт \n5 - Удалить контакт \n6 - Изменить номер телефона у контакта \n7 - Выход \n ") 
+print("Добрый день! Добро пожаловть в псевдоспраочник! \nДля продолжения выберете итересующую Вас категорию: \n1 - Показать все записи \n2 - Найти запись по имени \n3 - Найти запись по телефону \n4 - Добавить новый контакт \n5 - Удалить контакт \n6 - Изменить номер телефона у контакта \n7 - Выход \n ") 
 userAnswer = input('Введите цифру: ')
 os.system('cls')
 match userAnswer:
@@ -75,9 +79,8 @@ match userAnswer:
         case "3":
             telSearch(readFile(telDict))
         
-        # case "4":
-        #     #удаление данных
-        #     del_data()
+        case "4":
+            addData(telDict)
             
         # case "5":
         #     #выход
