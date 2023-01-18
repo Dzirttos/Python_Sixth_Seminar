@@ -10,8 +10,7 @@
 # 3 - Найти запись по телефону
 # 4 - Добавить новый контакт
 # 5 - Удалить контакт
-# 6 - Изменить номер телефона у контакта
-# 7 - Выход
+# 6 - Выход
 
 
 import os
@@ -42,31 +41,34 @@ def nameSearch(dictArray):
 def telSearch(userList):
     # поиск по телефону
     telNumber = ' ' + input('Введите номер телефона для поиска: ') + '\n'
-    for user in userList:
-        if user[3] == telNumber: 
-           print(user[0]+','+user[1]+','+user[2]+','+ user[3])
+    for i in userList:
+        if i[3] == telNumber: 
+           print(i[0]+','+i[1]+','+i[2]+','+ i[3])
 
 def addData(file_name):
-    new_data = input("Введите, пожалуйста, новые данные через запятую (','):")
+    # Добавление контакта
+    new_data = input("Введите, пожалуйста, новые данные через запятую и пробел (', '): ")
     with open(file_name, 'a', encoding='utf8') as data:
         data.writelines(new_data + '\n')
 
+def deleteData(file_name):
+    # удаление записи
+    data_to_delete = input("Удаление всех данных по конкретному человеку возможно по фамилии. Введите, пожалуйста, Фамилию того человека, чьи записи желаете удалить: ")
+    s = ""
+    with open(file_name, "r", encoding="utf8") as data:
+        for line in data:
+            if data_to_delete in line:
+                continue
+            s += line
 
-def writeFile(file_name):
-    with open(file_name, 'a') as data:
-        data.writelines('niggazzz' + '\n')
+    with open(file_name, "w", encoding="utf8") as data:
+        data.write(s)
+    
+def default():
+    # Вывод, если ошибка
+    print("\033[31mДанный справочник не предусматривает ввод букв или цифр, отличных от указанных. Пожалуйста, проверьте ввод!")
 
-
-
-
-
-# writeFile(fileName)
-print(readFile(telDict))
-# '\n'
-# findUses(readFile(telDict))
-
-
-print("Добрый день! Добро пожаловть в псевдоспраочник! \nДля продолжения выберете итересующую Вас категорию: \n1 - Показать все записи \n2 - Найти запись по имени \n3 - Найти запись по телефону \n4 - Добавить новый контакт \n5 - Удалить контакт \n6 - Изменить номер телефона у контакта \n7 - Выход \n ") 
+print("Добрый день! Добро пожаловть в псевдоспраочник! \nДля продолжения выберете итересующую Вас категорию: \n1 - Показать все записи \n2 - Найти запись по имени \n3 - Найти запись по телефону \n4 - Добавить новый контакт \n5 - Удалить контакт \n6 - Выход \n ") 
 userAnswer = input('Введите цифру: ')
 os.system('cls')
 match userAnswer:
@@ -82,10 +84,12 @@ match userAnswer:
         case "4":
             addData(telDict)
             
-        # case "5":
-        #     #выход
-        #     exit(0)
-            
-        # case _:
-        #     print("неверный ввод")
-        #     time.sleep(3)           
+        case "5":
+            deleteData(telDict)
+
+        case "6":
+            exit(0)
+
+        case _:
+            default()
+        
